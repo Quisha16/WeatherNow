@@ -3,7 +3,7 @@ This is a simple weather app that allows users to check the current weather cond
 
 ## Features
 * View current weather conditions (temperature, humidity, wind speed).
-* Search for weather information for any city.
+* Search the weather information of any city.
 * Display weather information in a visually appealing format.
 
 ## Technologies Used
