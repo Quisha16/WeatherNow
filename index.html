@@ -12,6 +12,9 @@
             <input type="text" placeholder="enter the city " spellcheck="false" >
             <button><img src="images/search.png" alt="search icon"></button>
         </div>
+        <div class="error">
+            <p>invalid city name, enter again.</p>
+        </div>
         <div class="weather">
             <img src="images/rain.png" class="weatherIcon">
             <h1 class="temperature">22°c</h1>
@@ -33,6 +36,75 @@
             </div>
         </div>
     </div>
-    
+    <script>
+        
+        const apiKey="3d07490aa5462f817114d8d2613ca776";
+
+        //to make a request to the OpenWeatherMap API to fetch weather data 
+        const apiUrl="https://api.openweathermap.org/data/2.5/weather?&units=metric&q="; 
+
+        const searchbox=document.querySelector(".search input");
+        const searchbtn=document.querySelector(".search button");
+        const weatherIcon=document.querySelector(".weatherIcon"); 
+
+        //async: this function can do something in the background (like fetching data), while still allowing other parts of your code to keep running.
+        async function checkWeather(city)
+        {
+            const response =await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+            //if city name is invalid
+            if(response.status==404) 
+            {
+               document.querySelector(".error").style.display="block"; 
+               document.querySelector(".weather").style.display="none"; 
+            }
+            else{
+
+            //data will have all the info of the particular city's weather.
+            var data=await response.json();
+           
+
+            //select the element, and innerHTML will update the text within that element 
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temperature").innerHTML = Math.round(data.main.temp)  + "°c"; //round off the value 
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.wind.speed +  "km/hr";
+
+            //to update the image
+            if(data.weather[0].main=="Clouds"){
+                weatherIcon.src ="images/clouds.png" ;
+            }
+            else if (data.weather[0].main=="Clear"){
+                weatherIcon.src ="images/clear.png" ;
+            }
+            else if (data.weather[0].main=="Rain"){
+                weatherIcon.src ="images/rain.png" ;
+            }
+            else if (data.weather[0].main=="Mist"){
+                weatherIcon.src ="images/mist.png" ;
+            }
+            else if (data.weather[0].main=="Drizzle"){
+                weatherIcon.src ="images/drizzle.png" ;
+            }
+
+            document.querySelector(".weather").style.display="block";
+
+            //error msg will be hidden when displaying the data 
+            document.querySelector(".error").style.display="none"; 
+        }
+
+
+
+             
+        }
+
+        // Add event listener to search button for click event
+        // Call checkWeather function with the value of searchbox input as argument
+        searchbtn.addEventListener("click",()=>{
+            checkWeather(searchbox.value);
+        })
+
+        checkWeather();
+    </script>
 </body>
 </html>
