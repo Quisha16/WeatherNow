@@ -1,5 +1,5 @@
-# Weather-App
-This is a simple weather app that allows users to check the current weather conditions for a specific location.
+# Weather Webpage with OpenWeatherMap API
+This is a simple weather webpage that allows users to check the current weather conditions for a specific location. 
 
 ## Features
 * View current weather conditions (temperature, humidity, wind speed).
